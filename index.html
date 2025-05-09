@@ -13,9 +13,19 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      width: 100%;
       overflow: hidden;
       flex-direction: column;
+      margin: 0 auto;
     }
+    .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    justify-content: center; /* по вертикалі */
+    height: 100vh;         /* вся висота екрана */
+    text-align: center;
+}
 
     .hide {
   opacity: 0;
@@ -313,7 +323,7 @@ footer {
 <body>
 
   <!-- Calendar -->
-
+<div class="container">
   <div class="calendar" id="calendar">
     <div class="calendar-cap">
       <div class="ring"></div>
@@ -352,6 +362,7 @@ footer {
   <div class="message-text" id="messageText">Happy Birthday, Bogdan!</div>
 </div>
 
+  </div>
   </div>
 
   <script>
