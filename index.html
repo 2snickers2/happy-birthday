@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Calendar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #bdbdbd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .hide {
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+
+.calendar {
+  position: relative;
+  width: 200px;
+  height: 140px;
+  margin-bottom: 40px;
+  z-index: 5;
+  transition: opacity 1s ease;
+}
+
+.calendar-cap {
+  background-color: #bd0f0f;
+  height: 30px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ring {
+  width: 10px;
+  height: 10px;
+  background: silver;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.sheet {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: white;
+  border: 2px solid #bd0f0f;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  top: 30px;
+  left: 0;
+  padding-top: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #fa0909b9;
+  text-align: center;
+  border-top: 20px solid transparent;
+  /* Torn top edge */
+  clip-path: polygon(0 15%, 5% 0, 10% 15%, 15% 0, 20% 15%, 25% 0, 30% 15%, 35% 0, 40% 15%, 45% 0, 50% 15%, 55% 0, 60% 15%, 65% 0, 70% 15%, 75% 0, 80% 15%, 85% 0, 90% 15%, 95% 0, 100% 15%, 100% 100%, 0 100%);
+  transition: transform 1.5s ease, opacity 1.5s ease;
+}
+/* Add clean sheet class (default look) */
+
+
+.sheet.clean {
+clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+\* Torn effect used during falling \*/
+.sheet.torn {
+clip-path: polygon(0 15%, 5% 0, 10% 15%, 15% 0, 20% 15%, 25% 0, 30% 15%, 35% 0, 40% 15%, 45% 0, 50% 15%, 55% 0, 60% 15%, 65% 0, 70% 15%, 75% 0, 80% 15%, 85% 0, 90% 15%, 95% 0, 100% 15%, 100% 100%, 0 100%);
+}
+
+
+.fall {
+  animation: fallSheet 1.5s forwards;
+}
+
+@keyframes fallSheet {
+  to {
+    transform: translate(100px, 150px) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+.cake-container {
+
+
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+opacity: 0;
+transition: opacity 2s ease-in;
+pointer-events: none;
+text-align: center;
+
+}
+
+.cake-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* h1 {
+  background-color: #d14d76;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px #b93f68;
+  margin-bottom: 20px;
+} */
+
+.cake {
+  position: relative;
+  width: 200px;
+  height: 120px;
+  background: #410505;
+  border-radius: 100px / 30px;
+  box-shadow: inset 0 -10px #723737;
+  margin: 0 auto;
+}
+
+.frosting {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: #fff2f2;
+  border-radius: 100px / 30px;
+}
+
+.drip {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background: #fff2f2;
+  border-radius: 50%;
+}
+
+.drip1 { left: 30px;  }
+.drip2 { left: 85px;  }
+.drip3 { left: 140px;  }
+
+.candle {
+  position: absolute;
+  width: 8px;
+  height: 30px;
+  background: #2c0d0d;
+  top: -20px;
+  border-radius: 2px;
+  left: 40px;
+}
+
+.candle:nth-child(2) { left: 70px; }
+.candle:nth-child(3) { left: 105px; }
+.candle:nth-child(4) { left: 140px; }
+
+.flame {
+  position: absolute;
+  top: -10px;
+  left: 1px;
+  width: 6px;
+  height: 10px;
+  background: orange;
+  border-radius: 50%;
+  animation: flicker 0.5s infinite alternate;
+  box-shadow: 0 0 5px yellow;
+}
+
+@keyframes flicker {
+  0% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1.3); opacity: 0.7; }
+}
+#blowOutBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #bd0f0f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 3px #900;
+  transition: background-color 0.3s;
+}
+
+#blowOutBtn:hover {
+  background-color: #a30d0d;
+}
+
+.flame.extinguished {
+  display: none;
+}
+.present-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  transition: opacity 1s ease;
+}
+.present-box.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.box-body {
+  width: 150px;
+  height: 120px;
+  background: #ff9133;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.lid {
+  width: 150px;
+  height: 40px;
+  background: #ffbe40;
+  border-radius: 5px 5px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  transform-origin: bottom center;
+  transition: transform 0.6s ease;
+}
+
+.ribbon-horizontal,
+.ribbon-vertical {
+  background: #d00000;
+  position: absolute;
+}
+
+.ribbon-horizontal {
+  height: 15px;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ribbon-vertical {
+  width: 15px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.message-text {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  font-size: 22px;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  font-weight: bold;
+  color: #d00000;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.message-text.show {
+  transform: translateX(-50%) scale(1.2);
+  opacity: 1;
+}
+
+.lid.open {
+  animation: liftAndSwing 1s ease forwards;
+}
+
+@keyframes liftAndSwing {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  40% {
+    transform: translateY(20px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-120px, -60px) rotate(-30deg);
+  }
+}
+
+
+
+footer {
+  position: absolute;
+  bottom: 10px;
+  font-size: 12px;
+  color: #555;
+}
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Calendar -->
+
+  <div class="calendar" id="calendar">
+    <div class="calendar-cap">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <div class="sheet clean" style="z-index: 4;">8 May</div>
+    <div class="sheet clean" style="z-index: 3;">9 May</div>
+    <div class="sheet clean" style="z-index: 2;">10 May</div>
+    <div class="sheet clean" style="z-index: 1;">11 May</div>
+  </div>
+
+  <!-- Cake -->
+
+  <div class="cake-container" id="cakeContainer">
+
+
+<div class="cake">
+  <div class="frosting"></div>
+  <div class="drip drip1"></div>
+  <div class="drip drip2"></div>
+  <div class="drip drip3"></div>
+  <div class="candle"><div class="flame"></div></div>
+  <div class="candle" style="left: 70px;"><div class="flame"></div></div>
+  <div class="candle" style="left: 105px;"><div class="flame"></div></div>
+  <div class="candle" style="left: 140px;"><div class="flame"></div></div>
+</div>
+<button id="blowOutBtn">Blow Out Candles</button>
+
+<div class="present-box" id="presentBox">
+  <div class="lid" id="lid"></div>
+  <div class="box-body">
+    <div class="ribbon-horizontal"></div>
+    <div class="ribbon-vertical"></div>
+  </div>
+  <div class="message-text" id="messageText">Happy Birthday, Bogdan!</div>
+</div>
+
+  </div>
+
+  <script>
+    const sheets = document.querySelectorAll('.sheet');
+    const cakeContainer = document.getElementById('cakeContainer');
+    const calendar = document.getElementById('calendar');
+
+    sheets.forEach((sheet, i) => {
+  setTimeout(() => {
+    sheet.classList.remove('clean');
+    sheet.classList.add('torn');
+    sheet.classList.add('fall');
+    if (i === sheets.length - 1) {
+      setTimeout(() => {
+        calendar.style.opacity = 0;
+        cakeContainer.classList.add('cake-show');
+      }, 1600);
+    }
+  }, 1000 + i * 1000);
+});
+const blowOutBtn = document.getElementById('blowOutBtn');
+blowOutBtn.addEventListener('click', () => {
+  const flames = document.querySelectorAll('.flame');
+  flames.forEach(flame => flame.classList.add('extinguished'));
+});
+const presentBox = document.getElementById('presentBox');
+const lid = document.getElementById('lid');
+const messageText = document.getElementById('messageText');
+
+const cake = document.querySelector('.cake');
+
+
+
+
+blowOutBtn.addEventListener('click', () => {
+  const flames = document.querySelectorAll('.flame');
+  flames.forEach(flame => flame.classList.add('extinguished'));
+
+  // Плавное исчезновение торта и кнопки через 1 секунду
+  setTimeout(() => {
+    cake.classList.add('hide'); // торт исчезает
+    blowOutBtn.classList.add('hide'); // кнопка исчезает
+  }, 1000);
+
+  // Показать коробку (с задержкой после исчезновения торта)
+  setTimeout(() => {
+    presentBox.classList.add('show'); // коробка появляется
+  }, 2000); // задержка в 2 секунды, чтобы коробка появилась после исчезновения торта
+
+  // Открытие крышки коробки
+  setTimeout(() => {
+    lid.classList.add('open');
+  }, 2000);
+
+  // Показать надпись спустя 3 секунды
+  setTimeout(() => {
+    messageText.classList.add('show');
+  }, 3000);
+});
+
+
+
+
+
+
+  </script>
+
+</body>
+</html>
+
